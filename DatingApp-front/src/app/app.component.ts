@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
+import { error } from 'console';
+import { urlToHttpOptions } from 'url';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +9,24 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'DatingApp';
+
+
+export class AppComponent implements OnInit {
+  title = 'DatingApp1';
+  users: any;
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+    this.getusers();
+  }
+
+
+  getusers() {
+    this.http.get("https://localhost:7012/user").subscribe(res => {
+      this.users = res;
+      console.log(this.users);
+    },error => {
+      console.log(error)
+    })
+  }
 }
